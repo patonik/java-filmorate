@@ -16,7 +16,7 @@ import java.util.List;
 public class UserController {
     UserBank userBank = UserBank.getInstance();
 
-    @GetMapping(path = "/")
+    @GetMapping()
     public User[] getUsers() {
         return userBank.getUsers();
     }

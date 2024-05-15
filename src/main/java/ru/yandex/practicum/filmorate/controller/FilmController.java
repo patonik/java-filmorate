@@ -16,7 +16,7 @@ import java.util.List;
 public class FilmController {
     private final FilmBank filmBank = FilmBank.getInstance();
 
-    @GetMapping(path = "/")
+    @GetMapping()
     public Film[] getFilms() {
         return filmBank.getFilms();
     }
