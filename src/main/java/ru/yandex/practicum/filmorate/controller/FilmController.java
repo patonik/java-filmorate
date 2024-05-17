@@ -46,13 +46,13 @@ public class FilmController {
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
-    public Film editFilm(@Valid @RequestBody Film film, @PathVariable("id") int id, BindingResult bindingResult) {
+    public Film editFilm(@Valid @RequestBody Film film, BindingResult bindingResult) {
         List<FieldError> errorList = bindingResult.getFieldErrors();
         for (FieldError fieldError : errorList) {
             log.atWarn().log(fieldError.getDefaultMessage());
         }
         if (errorList.isEmpty()) {
-            Film result = filmBank.updateFilm(id, film);
+            Film result = filmBank.updateFilm(film.getId(), film);
             if (result.equals(film)) {
                 log.atInfo().log("film was not updated");
                 throw new NotFoundException();
