@@ -1,8 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.annotation.IsAfter;
 
@@ -13,6 +11,9 @@ import java.time.LocalDate;
  */
 @Data
 public class Film {
+    @NotNull
+    @Min(Integer.MIN_VALUE)
+    @Max(Integer.MAX_VALUE)
     private int id;
     @NotBlank
     private String name;

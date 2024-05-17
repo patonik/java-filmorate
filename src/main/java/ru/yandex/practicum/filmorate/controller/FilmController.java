@@ -38,7 +38,7 @@ public class FilmController {
                 return film;
             } else {
                 log.atInfo().log("filmBank's state is not valid");
-                return result;
+                return film;
             }
         } else {
             throw new InvalidArgumentsException();

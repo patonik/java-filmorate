@@ -41,7 +41,7 @@ public class UserController {
                 return user;
             } else {
                 log.atInfo().log("userBank's state is not valid");
-                return result;
+                return user;
             }
         } else {
             throw new InvalidArgumentsException();

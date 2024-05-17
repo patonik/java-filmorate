@@ -1,8 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.annotation.WithoutWhitespace;
 
@@ -10,6 +8,9 @@ import java.time.LocalDate;
 
 @Data
 public class User {
+    @NotNull
+    @Min(Integer.MIN_VALUE)
+    @Max(Integer.MAX_VALUE)
     private int id;
     @Email
     @NotBlank
