@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class FilmBank {
     private static FilmBank instance;
     private final Map<Integer, Film> filmBank = new ConcurrentHashMap<>();
-    private final AtomicInteger nextId = new AtomicInteger(0);
+    private final AtomicInteger nextId = new AtomicInteger(1);
 
     public static synchronized FilmBank getInstance() {
         if (instance == null) {

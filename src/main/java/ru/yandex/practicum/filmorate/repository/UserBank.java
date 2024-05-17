@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class UserBank {
     private static UserBank instance;
     private final Map<Integer, User> userBank = new ConcurrentHashMap<>();
-    private final AtomicInteger nextId = new AtomicInteger(0);
+    private final AtomicInteger nextId = new AtomicInteger(1);
 
     public static synchronized UserBank getInstance() {
         if (instance == null) {
