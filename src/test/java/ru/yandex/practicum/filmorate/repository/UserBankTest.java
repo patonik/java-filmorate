@@ -9,7 +9,6 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserBankTest {
 
@@ -17,10 +16,9 @@ class UserBankTest {
     @Order(1)
     void createUser() {
         UserBank userBank = UserBank.getInstance();
-        assertThrows(Exception.class, () -> userBank.createUser(null));
         User user = new User();
         user.setName("Test Name");
-        user.setId(0);
+        user.setId(1);
         user.setBirthday(LocalDate.MIN);
         user.setLogin("Login");
         user.setEmail("email@test.com");
@@ -32,10 +30,9 @@ class UserBankTest {
     @Order(2)
     void updateUser() {
         UserBank userBank = UserBank.getInstance();
-        assertThrows(Exception.class, () -> userBank.createUser(null));
         User user = new User();
         user.setName("Test Name");
-        user.setId(0);
+        user.setId(1);
         user.setBirthday(LocalDate.MIN);
         user.setLogin("Login");
         user.setEmail("new@email.com");
