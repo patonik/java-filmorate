@@ -61,10 +61,10 @@ public class UserController {
                 throw new NotFoundException();
             } else {
                 log.atInfo().log("user was updated");
+                return user;
             }
-            return result;
         } else {
-            return null;
+            throw new InvalidArgumentsException();
         }
     }
 }

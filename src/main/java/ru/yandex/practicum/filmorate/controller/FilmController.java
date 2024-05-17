@@ -58,10 +58,10 @@ public class FilmController {
                 throw new NotFoundException();
             } else {
                 log.atInfo().log("film was updated");
+                return film;
             }
-            return result;
         } else {
-            return null;
+            throw new InvalidArgumentsException();
         }
     }
 }
