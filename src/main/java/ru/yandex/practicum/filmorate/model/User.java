@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Past;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.annotation.WithoutWhitespace;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class User {
@@ -19,5 +19,5 @@ public class User {
     private String login;
     private String name;
     @Past
-    private LocalDateTime birthday;
+    private LocalDate birthday;
 }

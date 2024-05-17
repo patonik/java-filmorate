@@ -12,7 +12,9 @@ public class WhitespaceValidator implements ConstraintValidator<WithoutWhitespac
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if (s == null) return false;
+        if (s == null) {
+            return false;
+        }
         return !s.contains(" ");
     }
 }

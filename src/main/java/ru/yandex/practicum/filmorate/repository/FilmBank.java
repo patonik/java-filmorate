@@ -1,16 +1,19 @@
 package ru.yandex.practicum.filmorate.repository;
 
 
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Component("filmBank")
 public class FilmBank {
     private static FilmBank instance;
     private final Map<Integer, Film> filmBank = new ConcurrentHashMap<>();
-    private AtomicInteger nextId = new AtomicInteger(0);
+    private final AtomicInteger nextId = new AtomicInteger(0);
 
     public static synchronized FilmBank getInstance() {
         if (instance == null) {
@@ -27,7 +30,7 @@ public class FilmBank {
         return filmBank.put(id, film);
     }
 
-    public Film[] getFilms() {
-        return filmBank.values().toArray(new Film[0]);
+    public List<Film> getFilms() {
+        return filmBank.values().stream().toList();
     }
 }

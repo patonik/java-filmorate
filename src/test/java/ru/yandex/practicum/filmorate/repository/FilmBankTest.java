@@ -21,11 +21,11 @@ class FilmBankTest {
         Film film = new Film();
         film.setName("Test Name");
         film.setId(0);
-        film.setReleaseDate(LocalDateTime.now().minusYears(1));
+        film.setReleaseDate(LocalDateTime.now().minusYears(1).toLocalDate());
         film.setDescription("desc");
         film.setDuration(333);
         filmBank.createFilm(film);
-        assertEquals(film, filmBank.getFilms()[0]);
+        assertEquals(film, filmBank.getFilms().getFirst());
     }
 
     @Test
@@ -36,12 +36,12 @@ class FilmBankTest {
         Film film = new Film();
         film.setName("Test Name");
         film.setId(0);
-        film.setReleaseDate(LocalDateTime.now().minusYears(1));
+        film.setReleaseDate(LocalDateTime.now().minusYears(1).toLocalDate());
         film.setDuration(333);
         film.setDescription("new desc");
-        int length = filmBank.getFilms().length;
+        int length = filmBank.getFilms().size();
         filmBank.updateFilm(1, film);
-        assertEquals(film, filmBank.getFilms()[0]);
-        assertEquals(length, filmBank.getFilms().length);
+        assertEquals(film, filmBank.getFilms().getFirst());
+        assertEquals(length, filmBank.getFilms().size());
     }
 }

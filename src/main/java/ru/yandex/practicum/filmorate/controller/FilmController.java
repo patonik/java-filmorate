@@ -2,9 +2,12 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.exception.InvalidArgumentsException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.repository.FilmBank;
 
@@ -14,14 +17,15 @@ import java.util.List;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    private final FilmBank filmBank = FilmBank.getInstance();
+    @Autowired
+    private FilmBank filmBank;
 
     @GetMapping()
-    public Film[] getFilms() {
+    public List<Film> getFilms() {
         return filmBank.getFilms();
     }
 
-    @PostMapping(path = "new", consumes = "application/json", produces = "application/json")
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public Film createFilm(@Valid @RequestBody Film film, BindingResult bindingResult) {
         List<FieldError> errorList = bindingResult.getFieldErrors();
         for (FieldError fieldError : errorList) {
@@ -31,16 +35,17 @@ public class FilmController {
             Film result = filmBank.createFilm(film);
             if (result == null) {
                 log.atInfo().log("film created");
+                return film;
             } else {
                 log.atInfo().log("filmBank's state is not valid");
+                return result;
             }
-            return result;
         } else {
-            return null;
+            throw new InvalidArgumentsException();
         }
     }
 
-    @PostMapping(path = "/{id}/edit", consumes = "application/json", produces = "application/json")
+    @PutMapping(consumes = "application/json", produces = "application/json")
     public Film editFilm(@Valid @RequestBody Film film, @PathVariable("id") int id, BindingResult bindingResult) {
         List<FieldError> errorList = bindingResult.getFieldErrors();
         for (FieldError fieldError : errorList) {
@@ -50,6 +55,7 @@ public class FilmController {
             Film result = filmBank.updateFilm(id, film);
             if (result.equals(film)) {
                 log.atInfo().log("film was not updated");
+                throw new NotFoundException();
             } else {
                 log.atInfo().log("film was updated");
             }
