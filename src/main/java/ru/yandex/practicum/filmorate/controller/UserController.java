@@ -8,37 +8,40 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.InvalidArgumentsException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
-import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.repository.FilmBank;
+import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.repository.UserBank;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/films")
+@RequestMapping("/users")
 @Slf4j
-public class FilmController {
+public class UserController {
     @Autowired
-    private FilmBank filmBank;
+    private UserBank userBank;
 
     @GetMapping()
-    public List<Film> getFilms() {
-        return filmBank.getFilms();
+    public List<User> getUsers() {
+        return userBank.getUsers();
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public Film createFilm(@Valid @RequestBody Film film, BindingResult bindingResult) {
+    public User createUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
         List<FieldError> errorList = bindingResult.getFieldErrors();
         for (FieldError fieldError : errorList) {
             log.atWarn().log(fieldError.getDefaultMessage());
         }
         if (errorList.isEmpty()) {
-            Film result = filmBank.createFilm(film);
+            User result = userBank.createUser(user);
             if (result == null) {
-                log.atInfo().log("film created");
-                return film;
+                log.atInfo().log("user created");
+                return user;
             } else {
-                log.atInfo().log("filmBank's state is not valid");
-                return film;
+                log.atInfo().log("userBank's state is not valid");
+                return user;
             }
         } else {
             throw new InvalidArgumentsException();
@@ -46,19 +49,19 @@ public class FilmController {
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json")
-    public Film editFilm(@Valid @RequestBody Film film, BindingResult bindingResult) {
+    public User editUser(@Valid @RequestBody User user, BindingResult bindingResult) {
         List<FieldError> errorList = bindingResult.getFieldErrors();
         for (FieldError fieldError : errorList) {
             log.atWarn().log(fieldError.getDefaultMessage());
         }
         if (errorList.isEmpty()) {
-            Film result = filmBank.updateFilm(film.getId(), film);
-            if (result.equals(film)) {
-                log.atInfo().log("film was not updated");
+            User result = userBank.updateUser(user.getId(), user);
+            if (result.equals(user)) {
+                log.atInfo().log("user was not updated");
                 throw new NotFoundException();
             } else {
-                log.atInfo().log("film was updated");
-                return film;
+                log.atInfo().log("user was updated");
+                return user;
             }
         } else {
             throw new InvalidArgumentsException();
