@@ -1,5 +1,4 @@
-package ru.yandex.practicum.filmorate.repository;
-
+package ru.yandex.practicum.filmorate.storage;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
@@ -9,36 +8,38 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component("userBank")
-public class UserBank {
-    private static UserBank instance;
+@Component
+public class InMemoryUserStorage implements UserStorage {
     private final Map<Integer, User> userBank = new ConcurrentHashMap<>();
     private final AtomicInteger nextInt = new AtomicInteger(1);
 
-    public static synchronized UserBank getInstance() {
-        if (instance == null) {
-            instance = new UserBank();
-        }
-        return instance;
+    @Override
+    public User delete(User user) {
+        return userBank.remove(user.getId());
     }
 
-    public User createUser(User user) {
+    @Override
+    public User create(User user) {
         int i = nextInt.getAndIncrement();
         user.setId(i);
         return userBank.put(i, user);
     }
 
-    public User updateUser(int id, User user) {
+    @Override
+    public User update(User user) {
+        int id = user.getId();
         if (!userBank.containsKey(id)) {
-            return user;
+            return null;
         }
         return userBank.put(id, user);
     }
 
-    public List<User> getUsers() {
+    @Override
+    public List<User> getAll() {
         return userBank.values().stream().toList();
     }
 
+    @Override
     public User getById(int id) {
         return userBank.get(id);
     }
