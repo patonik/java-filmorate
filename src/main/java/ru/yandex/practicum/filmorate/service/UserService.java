@@ -25,16 +25,18 @@ public class UserService {
             return null;
         }
         user.getFriends().add(friend);
+        friend.getFriends().add(user);
         return user;
     }
 
     public User deleteFriend(int id, int friendId) {
         User user = userStorage.getById(id);
         User friend = userStorage.getById(friendId);
-        if (user == null) {
+        if (user == null || friend == null) {
             return null;
         }
         user.getFriends().remove(friend);
+        friend.getFriends().remove(user);
         return user;
     }
 

@@ -78,7 +78,7 @@ public class UserController {
 
     @DeleteMapping("/{id}/friends/{friendId}")
     public User deleteFriend(@PathVariable int id, @PathVariable int friendId) {
-        User user = userService.addFriend(id, friendId);
+        User user = userService.deleteFriend(id, friendId);
         if (user == null) {
             throw new NotFoundException("either/both values invalid");
         }

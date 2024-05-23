@@ -1,7 +1,10 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.yandex.practicum.filmorate.annotation.WithoutWhitespace;
 
 import java.time.LocalDate;
@@ -22,5 +25,8 @@ public class User {
     private String name;
     @Past(message = "birthday should be in the past")
     private LocalDate birthday;
+    @JsonSerialize(using = UserSetSerializer.class)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private final Set<User> friends = new HashSet<>();
 }

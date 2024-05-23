@@ -33,7 +33,7 @@ public class FilmService {
     public Film deleteLike(int id, int userId) {
         Film film = filmStorage.getById(id);
         User user = inMemoryUserStorage.getById(userId);
-        if (film == null) {
+        if (film == null || user == null) {
             return null;
         }
         film.getUsersLiked().remove(user);

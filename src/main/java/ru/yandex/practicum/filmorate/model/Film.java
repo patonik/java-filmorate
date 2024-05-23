@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.annotation.IsAfter;
@@ -24,5 +25,6 @@ public class Film {
     private LocalDate releaseDate;
     @Positive(message = "duration should be positive number")
     private long duration;
+    @JsonSerialize(using = UserSetSerializer.class)
     private final Set<User> usersLiked = new HashSet<>();
 }
