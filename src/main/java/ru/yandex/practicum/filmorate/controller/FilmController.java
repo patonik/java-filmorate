@@ -59,7 +59,7 @@ public class FilmController {
         return film;
     }
 
-    @PutMapping("/films/{id}/like/{userId}")
+    @PutMapping("/{id}/like/{userId}")
     public Film likeFilm(@PathVariable int id, @PathVariable int userId) {
         Film film = filmService.addLike(id, userId);
         if (film == null) {
@@ -68,7 +68,7 @@ public class FilmController {
         return film;
     }
 
-    @DeleteMapping("/films/{id}/like/{userId}")
+    @DeleteMapping("/{id}/like/{userId}")
     public Film unlikeFilm(@PathVariable int id, @PathVariable int userId) {
         Film film = filmService.deleteLike(id, userId);
         if (film == null) {
@@ -77,7 +77,7 @@ public class FilmController {
         return film;
     }
 
-    @GetMapping("/films/popular?count={count}")
+    @GetMapping("/popular?count={count}")
     public List<Film> getFirstCountFilms(@RequestParam(defaultValue = "10") int count) {
         return filmService.getPopular(count);
     }

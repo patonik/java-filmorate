@@ -1,2 +1,5 @@
-valid:
-  checkDate: "1895-12-28"
+logging:
+  level:
+    org:
+      zalando:
+        logbook: TRACE

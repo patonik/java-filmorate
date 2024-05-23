@@ -51,7 +51,7 @@ public class UserController {
         return user;
     }
 
-    @PutMapping(consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "", consumes = "application/json", produces = "application/json")
     public User editUser(@Valid @RequestBody User user) {
         User result = userStorage.update(user);
         if (result == null) {
@@ -63,10 +63,11 @@ public class UserController {
         }
     }
 
-    @PutMapping("/users/{id}/friends/{friendId}")
-    public User addFriend(@PathVariable int id, @PathVariable int friendId) {
+    @PutMapping(value = "/{id}/friends/{friendId}")
+    public User addFriend(@PathVariable("id") int id, @PathVariable("friendId") int friendId) {
+        log.atInfo().log("started adding friend");
         if (id == friendId) {
-            throw new ValidationException("everyone is his own nemesis");
+            throw new ValidationException("everyone is their own nemesis");
         }
         User user = userService.addFriend(id, friendId);
         if (user == null) {
@@ -75,7 +76,7 @@ public class UserController {
         return user;
     }
 
-    @DeleteMapping("/users/{id}/friends/{friendId}")
+    @DeleteMapping("/{id}/friends/{friendId}")
     public User deleteFriend(@PathVariable int id, @PathVariable int friendId) {
         User user = userService.addFriend(id, friendId);
         if (user == null) {
@@ -84,7 +85,7 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("/users/{id}/friends")
+    @GetMapping("/{id}/friends")
     public List<User> getFriends(@PathVariable int id) {
         List<User> friends = userService.getFriends(id);
         if (friends == null) {
@@ -94,7 +95,7 @@ public class UserController {
         return friends;
     }
 
-    @GetMapping("/users/{id}/friends/common/{otherId}")
+    @GetMapping("/{id}/friends/common/{otherId}")
     public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
         if (id == otherId) {
             return getFriends(id);

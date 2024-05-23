@@ -5,6 +5,7 @@ import lombok.Data;
 import ru.yandex.practicum.filmorate.annotation.WithoutWhitespace;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -21,5 +22,5 @@ public class User {
     private String name;
     @Past(message = "birthday should be in the past")
     private LocalDate birthday;
-    private Set<User> friends;
+    private final Set<User> friends = new HashSet<>();
 }
