@@ -3,3 +3,9 @@ logging:
     org:
       zalando:
         logbook: TRACE
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/filmsdb
+    username: dbuser
+    password: 12345
+    driver-class-name: org.postgresql.Driver
