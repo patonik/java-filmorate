@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
+@Component("userInMemoryStorage")
 public class InMemoryUserStorage implements UserStorage {
     private final Map<Integer, User> userBank = new ConcurrentHashMap<>();
     private final AtomicInteger nextInt = new AtomicInteger(1);

@@ -2,13 +2,15 @@ package ru.yandex.practicum.filmorate.storage;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
+@Component("filmInMemoryStorage")
 public class InMemoryFilmStorage implements FilmStorage {
 
     private final Map<Integer, Film> filmBank = new ConcurrentHashMap<>();
@@ -39,5 +41,25 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     public Film getById(int id) {
         return filmBank.get(id);
+    }
+
+    @Override
+    public List<Genre> getGenres() {
+        return List.of();
+    }
+
+    @Override
+    public Genre getGenreById(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Mpa> getMpas() {
+        return List.of();
+    }
+
+    @Override
+    public Mpa getMpaById(int id) {
+        return null;
     }
 }
