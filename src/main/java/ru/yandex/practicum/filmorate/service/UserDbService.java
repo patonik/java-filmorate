@@ -37,7 +37,6 @@ public class UserDbService implements UserService {
             return null;
         }
         userStorage.deleteFriend(id, friendId, true);
-        //userStorage.deleteFriend(friendId, id, true);
         user.getFriends().addAll(userStorage.getFriends(id, true));
         return user;
     }

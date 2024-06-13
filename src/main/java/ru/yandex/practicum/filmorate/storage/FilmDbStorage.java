@@ -68,12 +68,23 @@ public class FilmDbStorage extends DbStorage<Film> implements FilmStorage {
             "WHERE f.ID = ?;";
     private static final String SELECT_ONE_GENRE = "SELECT * FROM PUBLIC.GENRE WHERE ID = ?;";
     private static final String SELECT_ONE_MPA = "SELECT * FROM PUBLIC.MPA_CODE WHERE ID = ?;";
-    private static final String INSERT_LIKES = "INSERT INTO PUBLIC.USER_FAVE_FILM (FILM, \"user\") VALUES(?, ?);";
-    private static final String DELETE_LIKES = "DELETE FROM PUBLIC.USER_FAVE_FILM WHERE FILM = ? AND \"user\" = ?;";
+    private static final String INSERT_LIKES = "INSERT INTO PUBLIC.FILM_LIKED_BY_USER (FILM, \"user\") VALUES(?, ?);";
+    private static final String DELETE_LIKES = "DELETE FROM PUBLIC.FILM_LIKED_BY_USER WHERE FILM = ? AND \"user\" = ?;";
     private static final String SELECT_POPULAR =
-        "SELECT f.ID, f.NAME, f.DESCRIPTION, f.RELEASE_DATE, f.DURATION, f.MPA_CODE mpaid, mc.NAME mpacode FROM PUBLIC.FILM f " +
-            "RIGHT JOIN (SELECT count(\"user\") AS c, FILM FROM PUBLIC.USER_FAVE_FILM GROUP BY FILM ORDER BY c DESC LIMIT ?) AS l ON f.ID = l.FILM " +
-            "LEFT JOIN MPA_CODE mc ON f.MPA_CODE = mc.ID;";
+        "SELECT film.ID, " +
+            "film.NAME, " +
+            "film.DESCRIPTION, " +
+            "film.RELEASE_DATE, " +
+            "film.DURATION, " +
+            "film.MPA_CODE mpaid, " +
+            "MPA_CODE.NAME mpacode " +
+            "FROM PUBLIC.FILM film " +
+            "RIGHT JOIN (" +
+            "SELECT count(\"user\") AS like_amount, FILM FROM PUBLIC.FILM_LIKED_BY_USER " +
+            "GROUP BY FILM " +
+            "ORDER BY like_amount " +
+            "DESC LIMIT ?) AS film_grouped_by_likes ON film.ID = film_grouped_by_likes.FILM " +
+            "LEFT JOIN MPA_CODE ON film.MPA_CODE = MPA_CODE.ID;";
     private final RowMapper<Genre> genreRowMapper;
     private final RowMapper<Mpa> mpaRowMapper;
 

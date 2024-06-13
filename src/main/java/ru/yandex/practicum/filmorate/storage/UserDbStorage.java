@@ -19,7 +19,7 @@ public class UserDbStorage extends DbStorage<User> implements UserStorage {
     private static final String SELECT_ALL = "SELECT * FROM PUBLIC.\"user\";";
     private static final String SELECT_ONE = "SELECT * FROM PUBLIC.\"user\" WHERE ID = ?;";
     private static final String SELECT_LIKERS =
-        "SELECT * FROM PUBLIC.\"user\" WHERE ID IN (SELECT \"user\" FROM PUBLIC.USER_FAVE_FILM WHERE FILM = ?);";
+        "SELECT * FROM PUBLIC.\"user\" WHERE ID IN (SELECT \"user\" FROM PUBLIC.FILM_LIKED_BY_USER WHERE FILM = ?);";
     private static final String INSERT_FRIEND =
         "INSERT INTO PUBLIC.USER_FRIEND (\"user\", FRIEND, CONFIRMED) VALUES(?, ?, ?);";
     private static final String SELECT_FRIENDS =
