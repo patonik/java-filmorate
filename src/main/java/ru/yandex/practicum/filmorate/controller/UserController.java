@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
@@ -22,7 +23,8 @@ public class UserController {
     private final UserStorage userStorage;
 
     @Autowired
-    public UserController(UserService userService, UserStorage userStorage) {
+    public UserController(@Qualifier("userDbService") UserService userService,
+                          @Qualifier("userDbStorage") UserStorage userStorage) {
         this.userService = userService;
         this.userStorage = userStorage;
     }
@@ -43,12 +45,8 @@ public class UserController {
             user.setName(user.getLogin());
         }
         User result = userStorage.create(user);
-        if (result == null) {
-            log.atInfo().log("user created");
-        } else {
-            log.atWarn().log("UserStorage's state is not valid");
-        }
-        return user;
+        log.atInfo().log(result.toString());
+        return result;
     }
 
     @PutMapping(value = "", consumes = "application/json", produces = "application/json")
@@ -100,7 +98,7 @@ public class UserController {
         if (id == otherId) {
             return getFriends(id);
         }
-        List<User> friendIntersection = userService.getFriendIntersection(id, otherId);
+        List<User> friendIntersection = userService.getFriendIntersection(id, otherId, true);
         if (friendIntersection == null) {
             throw new NotFoundException("either/both values invalid");
         }

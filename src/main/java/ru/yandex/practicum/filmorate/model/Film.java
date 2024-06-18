@@ -21,6 +21,9 @@ public class Film {
     private String name;
     @Size(max = 200, message = "description must be within 200 chars limit")
     private String description;
+    @JsonSerialize(using = GenreSetSerializer.class)
+    private Set<Genre> genres = new HashSet<>();
+    private Mpa mpa;
     @IsAfter(message = "the date should be later than 28.12.1895", checkDate = "1895-12-28")
     private LocalDate releaseDate;
     @Positive(message = "duration should be positive number")
